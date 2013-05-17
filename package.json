@@ -1,0 +1,9 @@
+{
+  "name": "couch-changes",
+  "version": "0.0.0",
+  "dependencies": {
+    "event-stream": "~3.0.14",
+    "request": "~2.21.0",
+    "reconnect": "~1.2.1"
+  }
+}
