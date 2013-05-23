@@ -1,10 +1,18 @@
 
 var Changes = require('../')
 var es = require('event-stream')
+var through = require('through')
 
 var stream = require('stream')
 
-var changes = Changes('http://localhost:5984/test/_changes')
-  .pipe(es.split())
-  .pipe(es.parse())
+var opts =
+    { protocol: 'http'
+    , host: 'localhost:5984'
+    , pathname: 'endpoint_config/_changes'
+    }
+
+var changes = Changes(opts)
+  .pipe(through(function (data) {
+    this.emit('data', data)
+  }))
   .pipe(es.log())

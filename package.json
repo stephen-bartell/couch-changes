@@ -4,6 +4,7 @@
   "dependencies": {
     "event-stream": "~3.0.14",
     "request": "~2.21.0",
-    "reconnect": "~1.2.1"
+    "reconnect": "~1.2.1",
+    "through": "~2.3.4"
   }
 }
