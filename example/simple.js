@@ -7,12 +7,25 @@ var stream = require('stream')
 
 var opts =
     { protocol: 'http'
-    , host: 'localhost:5984'
-    , pathname: 'endpoint_config/_changes'
+    , host: '10.69.200.190'
+    , pathname: '/cdb/endpoint_status/_changes'
+    , auth: 'admin:password'
     }
 
+var allowedRetries = 10
+
 var changes = Changes(opts)
-  .pipe(through(function (data) {
-    this.emit('data', data)
-  }))
-  .pipe(es.log())
+.on('connect', function () {
+  console.log('connecting')
+})
+.on('disconnect', function (s) {
+  console.log('disconnect')
+})
+.on('reconnect', function (attempts, delay) {
+  console.log('reconnect', attempts, delay)
+})
+.pipe(through(function (data) {
+  this.emit('data', data)
+}))
+.pipe(es.log())
+
