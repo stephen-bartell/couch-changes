@@ -51,7 +51,9 @@ function changes (uri) {
     })
     .on('response', function (res) {
       if (res.statusCode >= 400)
-        downstream.emit('error', res)
+        res.pipe(through(function (data) {
+          downstream.emit('error', JSON.parse(data))
+        }))
       else
         res.pipe(downstream)
     })
@@ -61,7 +63,8 @@ function changes (uri) {
 
 var c = changes(process.argv[2])
 .on('error', function (er) {
-  er.pipe(process.stderr)
+  console.log(er)
+  // er.pipe(process.stderr)
 })
 .pipe(es.split())
 .pipe(es.parse())
